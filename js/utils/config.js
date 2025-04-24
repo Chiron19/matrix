@@ -1,67 +1,84 @@
+import msdfCoptic         from '../../assets/coptic_msdf.png';
+import msdfGothic         from '../../assets/gothic_msdf.png';
+import msdfMatrixCode     from '../../assets/matrixcode_msdf.png';
+import msdfRes            from '../../assets/resurrections_msdf.png';
+import megacity            from '../../assets/megacity_msdf.png';
+import msdfResGlint       from '../../assets/resurrections_glint_msdf.png';
+import msdfHuberfishA        from '../../assets/huberfish_a_msdf.png';
+import msdfHuberfishD        from '../../assets/huberfish_d_msdf.png';
+import msdfGtargTenretni     from '../../assets/gtarg_tenretniolleh_msdf.png';
+import msdfGtargAlienText    from '../../assets/gtarg_alientext_msdf.png';
+import msdfNeoMatrixology    from '../../assets/neomatrixology_msdf.png';
+
+import texSand               from '../../assets/sand.png';
+import texPixels             from '../../assets/pixel_grid.png';
+import texMesh               from '../../assets/mesh.png';
+import texMetal              from '../../assets/metal.png';
+
 const fonts = {
 	coptic: {
 		// The script the Gnostic codices were written in
-		glyphMSDFURL: "assets/coptic_msdf.png",
+		glyphMSDFURL: msdfCoptic,
 		glyphSequenceLength: 32,
 		glyphTextureGridSize: [8, 8],
 	},
 	gothic: {
 		// The script the Codex Argenteus was written in
-		glyphMSDFURL: "assets/gothic_msdf.png",
+		glyphMSDFURL: msdfGothic,
 		glyphSequenceLength: 27,
 		glyphTextureGridSize: [8, 8],
 	},
 	matrixcode: {
 		// The glyphs seen in the film trilogy
-		glyphMSDFURL: "assets/matrixcode_msdf.png",
+		glyphMSDFURL: msdfMatrixCode,
 		glyphSequenceLength: 57,
 		glyphTextureGridSize: [8, 8],
 	},
 	megacity: {
 		// The glyphs seen in the film trilogy
-		glyphMSDFURL: "assets/megacity_msdf.png",
+		glyphMSDFURL: megacity,
 		glyphSequenceLength: 64,
 		glyphTextureGridSize: [8, 8],
 	},
 	resurrections: {
 		// The glyphs seen in the film trilogy
-		glyphMSDFURL: "assets/resurrections_msdf.png",
-		glintMSDFURL: "assets/resurrections_glint_msdf.png",
+		glyphMSDFURL: msdfRes,
+		glintMSDFURL: msdfResGlint,
 		glyphSequenceLength: 135,
 		glyphTextureGridSize: [13, 12],
 	},
 	huberfishA: {
-		glyphMSDFURL: "assets/huberfish_a_msdf.png",
+		glyphMSDFURL: msdfHuberfishA,
 		glyphSequenceLength: 34,
 		glyphTextureGridSize: [6, 6],
 	},
 	huberfishD: {
-		glyphMSDFURL: "assets/huberfish_d_msdf.png",
+		glyphMSDFURL: msdfHuberfishD,
 		glyphSequenceLength: 34,
 		glyphTextureGridSize: [6, 6],
 	},
 	gtarg_tenretniolleh: {
-		glyphMSDFURL: "assets/gtarg_tenretniolleh_msdf.png",
+		glyphMSDFURL: msdfGtargTenretni,
 		glyphSequenceLength: 36,
 		glyphTextureGridSize: [6, 6],
 	},
 	gtarg_alientext: {
-		glyphMSDFURL: "assets/gtarg_alientext_msdf.png",
+		glyphMSDFURL: msdfGtargAlienText,
 		glyphSequenceLength: 38,
 		glyphTextureGridSize: [8, 5],
 	},
 	neomatrixology: {
-		glyphMSDFURL: "assets/neomatrixology_msdf.png",
+		glyphMSDFURL: msdfNeoMatrixology,
 		glyphSequenceLength: 12,
 		glyphTextureGridSize: [4, 4],
 	},
 };
 
 const textureURLs = {
-	sand: "assets/sand.png",
-	pixels: "assets/pixel_grid.png",
-	mesh: "assets/mesh.png",
-	metal: "assets/metal.png",
+	sand: texSand,
+	pixels: texPixels,
+	mesh: texMesh,
+	metal: texMetal,
 };
 
 const hsl = (...values) => ({ space: "hsl", values });
@@ -101,8 +118,6 @@ const defaults = {
 	glyphEdgeCrop: 0.0, // The border around a glyph in a font texture that should be cropped out
 	glyphHeightToWidth: 1, // The aspect ratio of glyphs
 	glyphVerticalSpacing: 1, // The ratio of the vertical distance between glyphs to their height
-	glyphFlip: false, // Whether to horizontally reflect the glyphs
-	glyphRotation: 0, // An angle to rotate the glyphs. Currently limited to 90° increments
 	hasThunder: false, // An effect that adds dramatic lightning flashes
 	isPolar: false, // Whether the glyphs arc across the screen or sit in a standard grid
 	rippleTypeName: null, // The variety of the ripple effect
@@ -136,12 +151,12 @@ const versions = {
 	megacity: {
 		font: "megacity",
 		animationSpeed: 0.5,
-		numColumns: 40,
+		width: 40,
 	},
 	neomatrixology: {
 		font: "neomatrixology",
 		animationSpeed: 0.8,
-		numColumns: 40,
+		width: 40,
 		palette: [
 			{ color: hsl(0.15, 0.9, 0.0), at: 0.0 },
 			{ color: hsl(0.15, 0.9, 0.2), at: 0.2 },
@@ -445,6 +460,7 @@ const paramMapping = {
 	font: { key: "font", parser: (s) => s },
 	effect: { key: "effect", parser: (s) => s },
 	camera: { key: "useCamera", parser: isTrue },
+	width: { key: "numColumns", parser: (s) => nullNaN(parseInt(s)) },
 	numColumns: { key: "numColumns", parser: (s) => nullNaN(parseInt(s)) },
 	density: { key: "density", parser: (s) => nullNaN(range(parseFloat(s), 0)) },
 	resolution: { key: "resolution", parser: (s) => nullNaN(parseFloat(s)) },
@@ -502,11 +518,6 @@ const paramMapping = {
 	},
 
 	volumetric: { key: "volumetric", parser: isTrue },
-	glyphFlip: { key: "glyphFlip", parser: isTrue },
-	glyphRotation: {
-		key: "glyphRotation",
-		parser: (s) => nullNaN(range(parseFloat(s), 0, Infinity)),
-	},
 	loops: { key: "loops", parser: isTrue },
 	fps: { key: "fps", parser: (s) => nullNaN(range(parseFloat(s), 0, 60)) },
 	skipIntro: { key: "skipIntro", parser: isTrue },
@@ -522,17 +533,16 @@ paramMapping.backgroundRGB = paramMapping.backgroundColor;
 paramMapping.cursorRGB = paramMapping.cursorColor;
 paramMapping.glintRGB = paramMapping.glintColor;
 
-paramMapping.width = paramMapping.numColumns;
 paramMapping.dropLength = paramMapping.raindropLength;
 paramMapping.angle = paramMapping.slant;
 paramMapping.colors = paramMapping.stripeColors;
 
 export default (urlParams) => {
 	const validParams = Object.fromEntries(
-		Object.entries(urlParams)
+		Array.from(Object.entries(urlParams))
 			.filter(([key]) => key in paramMapping)
 			.map(([key, value]) => [paramMapping[key].key, paramMapping[key].parser(value)])
-			.filter(([_, value]) => value != null),
+			.filter(([_, value]) => value != null)
 	);
 
 	if (validParams.effect != null) {

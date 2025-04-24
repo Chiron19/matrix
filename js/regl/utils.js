@@ -52,7 +52,7 @@ const loadImage = (regl, url, mipmap) => {
 		loaded: (async () => {
 			if (url != null) {
 				const data = new Image();
-				data.crossOrigin = "anonymous";
+				//data.crossOrigin = "anonymous";
 				data.src = url;
 				await data.decode();
 				loaded = true;
