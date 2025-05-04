@@ -40,7 +40,7 @@ const makeComputeTarget = (device, size, mipLevelCount = 1) =>
 	});
 
 const loadShader = async (device, url) => {
-	const response = await fetch(url);
+	const response = await fetch(`libs/matrix/${url}`);
 	const code = await response.text();
 	return {
 		code,

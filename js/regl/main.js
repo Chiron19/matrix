@@ -35,7 +35,7 @@ const loadJS = (src) =>
 	});
 
 export default async (canvas, config) => {
-	await Promise.all([loadJS("lib/regl.min.js"), loadJS("lib/gl-matrix.js")]);
+	await Promise.all([loadJS("libs/matrix/lib/regl.min.js"), loadJS("libs/matrix/lib/gl-matrix.js")]);
 
 	const resize = () => {
 		const devicePixelRatio = window.devicePixelRatio ?? 1;
@@ -44,17 +44,18 @@ export default async (canvas, config) => {
 	};
 	window.onresize = resize;
 	if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
-		window.ondblclick = () => {
-			if (document.fullscreenElement == null) {
-				if (canvas.webkitRequestFullscreen != null) {
-					canvas.webkitRequestFullscreen();
-				} else {
-					canvas.requestFullscreen();
-				}
-			} else {
-				document.exitFullscreen();
-			}
-		};
+		// Disable fullscreen on double-click by commenting out the event handler
+		// window.ondblclick = () => {
+		// 	if (document.fullscreenElement == null) {
+		// 		if (canvas.webkitRequestFullscreen != null) {
+		// 			canvas.webkitRequestFullscreen();
+		// 		} else {
+		// 			canvas.requestFullscreen();
+		// 		}
+		// 	} else {
+		// 		document.exitFullscreen();
+		// 	}
+		// };
 	}
 	resize();
 

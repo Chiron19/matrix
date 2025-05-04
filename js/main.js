@@ -1,6 +1,13 @@
 import makeConfig from "./config.js";
 
 const canvas = document.createElement("canvas");
+canvas.id = "matrixbackground";
+canvas.style.position = "fixed";
+canvas.style.top = "0";
+canvas.style.left = "0";
+canvas.style.width = "100%";
+canvas.style.height = "100%";
+canvas.style.zIndex = "-2";
 document.body.appendChild(canvas);
 document.addEventListener("touchmove", (e) => e.preventDefault(), {
 	passive: false,
@@ -11,8 +18,10 @@ const supportsWebGPU = async () => {
 };
 
 const isRunningSwiftShader = () => {
+	// Check if the browser is running on SwiftShader (software rendering)
 	const gl = document.createElement("canvas").getContext("webgl");
 	const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+	if (!debugInfo) return false; // Return false if WEBGL_debug_renderer_info is not available
 	const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
 	return renderer.toLowerCase().includes("swiftshader");
 };

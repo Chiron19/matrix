@@ -85,7 +85,8 @@ const loadText = (url) => {
 		},
 		loaded: (async () => {
 			if (url != null) {
-				text = await (await fetch(url)).text();
+				const prefixedUrl = `libs/matrix/${url}`;
+				text = await (await fetch(prefixedUrl)).text();
 				loaded = true;
 			}
 		})(),
