@@ -9,9 +9,9 @@ canvas.style.width = "100%";
 canvas.style.height = "100%";
 canvas.style.zIndex = "-2";
 document.body.appendChild(canvas);
-document.addEventListener("touchmove", (e) => e.preventDefault(), {
-	passive: false,
-});
+// document.addEventListener("touchmove", (e) => e.preventDefault(), {
+// 	passive: false,
+// });
 
 const supportsWebGPU = async () => {
 	return window.GPUQueue != null && navigator.gpu != null && navigator.gpu.getPreferredCanvasFormat != null;
